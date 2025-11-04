@@ -1,19 +1,11 @@
-'use client'
-import { useEffect, useState } from 'react'
+import React from 'react';
 
-export default function Home() {
-  const [message, setMessage] = useState()
+const HomePage = () => {
+  return (
+    <div>
+      <h1>Welcome to the Next.js Backend!</h1>
+    </div>
+  );
+};
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch('/api/hello')
-      const { message } = await res.json()
-      setMessage(message)
-    }
-    fetchData()
-  }, [])
-
-  if (!message) return <p>Loading...</p>
-
-  return <p>{message}</p>
-}
+export default HomePage;
