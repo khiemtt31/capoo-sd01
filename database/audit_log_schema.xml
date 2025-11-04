@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <!-- Root element for a collection of log entries -->
+    <xs:element name="LogEntries">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="LogEntry" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Definition of a single log entry -->
+    <xs:element name="LogEntry">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Timestamp" type="xs:dateTime"/>
+                <xs:element name="Service" type="xs:string"/>
+                <xs:element name="EventType" type="xs:string"/>
+                <xs:element name="Severity" type="xs:string"/>
+                <xs:element name="Message" type="xs:string"/>
+                <xs:element name="ActorId" type="xs:string" minOccurs="0"/>
+                <xs:element name="TargetId" type="xs:string" minOccurs="0"/>
+                <xs:element name="Details" type="DetailsType" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Complex type for detailed log information -->
+    <xs:complexType name="DetailsType">
+        <xs:sequence>
+            <xs:element name="Key" type="xs:string" maxOccurs="unbounded"/>
+            <xs:element name="Value" type="xs:string" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>
