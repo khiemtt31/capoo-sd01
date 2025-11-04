@@ -6,9 +6,10 @@
 **Total Story Points:** 45
 
 ## Sprint Scope and Alignment
-- Delivers the minimum viable identity layer required by the User Management epic in [capoo-sd01-planning/1_BUSINESS_REQUIREMENTS.md](capoo-sd01-planning/1_BUSINESS_REQUIREMENTS.md).
+- Delivers the minimum viable identity layer required by the User Management epic in [planning/1_BUSINESS_REQUIREMENTS.md](capoo-sd01-planning/1_BUSINESS_REQUIREMENTS.md).
 - Enables downstream epics (Project Tracking, Notifications, Tagging) by providing authenticated identity, session issuance, and profile context.
-- Operates within the modular monolith baseline described in [capoo-sd01-planning/0_HIGHLEVEL_ARCHITECTURE.md](capoo-sd01-planning/0_HIGHLEVEL_ARCHITECTURE.md), keeping auth, user, and profile concerns modular yet deployable as a single service.
+- Operates within the modular monolith baseline described in [planning/0_HIGHLEVEL_ARCHITECTURE.md](capoo-sd01-planning/0_HIGHLEVEL_ARCHITECTURE.md), keeping auth, user, and profile concerns modular yet deployable as a single service.
+- Details Design should be mapping to schemas [database/] and Developement is about schema-driven architecture (using zod)
 
 ## Non-Goals
 - OAuth or social login integrations.
