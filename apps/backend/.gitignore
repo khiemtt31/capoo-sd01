@@ -1,8 +1,8 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Node dependencies
+/node_modules/
 
-# dependencies
-/node_modules
-/.pnp
+# Yarn PnP / Yarn v2+ (if used)
+.pnp
 .pnp.*
 .yarn/*
 !.yarn/patches
@@ -10,32 +10,53 @@
 !.yarn/releases
 !.yarn/versions
 
-# testing
-/coverage
+# Build output
+/dist/
+/build/
 
-# next.js
-/.next/
-/out/
+# Testing
+/coverage/
 
-# production
-/build
-
-# misc
-.DS_Store
-*.pem
-
-# debug
+# Logs
+logs
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# Environment files
+.env
+.env.local
+.env.*.local
+!.env.example
 
-# vercel
-.vercel
-
-# typescript
+# TypeScript
 *.tsbuildinfo
-next-env.d.ts
+
+# NestJS / compiled JS
+# If your Nest app outputs to "dist", keep dist ignored (already above).
+# If you use other build folders, add them here.
+
+# IDEs and editors
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Certificates / keys
+*.pem
+
+# Misc
+/.cache
+/.nyc_output
+.jest-test-results.json
+
+# Docker / Compose local overrides
+docker-compose.override.yml
