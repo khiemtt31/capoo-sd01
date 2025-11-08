@@ -24,4 +24,3 @@ Sprint documents must follow a strict naming convention to ensure consistency an
 ## 3. Sprint Content Structure
 
 Each user story within a sprint document must be detailed using the following structure. This ensures that all necessary information for development is captured clearly and consistently.
-
