@@ -1,3 +1,8 @@
 node_modules
 .pnpm
 apps/*/.next
+apps/*/.venv
+
+.env
+*/.env
+*/.env.example
