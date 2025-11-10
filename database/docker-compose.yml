@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: capoo_postgres
+    environment:
+      POSTGRES_USER: capoo_user
+      POSTGRES_PASSWORD: capoo_password
+      POSTGRES_DB: capoo_db
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8"
+    ports:
+      - "5499:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql
+      - ./user_service_schema.sql:/docker-entrypoint-initdb.d/01_user_service_schema.sql
+      - ./project_service_schema.sql:/docker-entrypoint-initdb.d/02_project_service_schema.sql
+      - ./notification_service_schema.sql:/docker-entrypoint-initdb.d/03_notification_service_schema.sql
+      - ./tagging_service_schema.sql:/docker-entrypoint-initdb.d/04_tagging_service_schema.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U capoo_user -d capoo_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - capoo_network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  capoo_network:
+    driver: bridge
