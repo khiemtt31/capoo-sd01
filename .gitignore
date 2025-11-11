@@ -9,3 +9,6 @@ apps/*/.venv
 
 # Python
 **/*.pyc
+__pycache__/
+**/__pycache__  <-- This line should be enough
+*/__pycache__
