@@ -20,6 +20,13 @@ class UserLogin(BaseModel):
     email: EmailStr
     password: str
 
+class TokenRefreshRequest(BaseModel):
+    """Schema for POST /api/auth/refresh (Story 1.2b)"""
+    refresh_token: str = Field(alias="refreshToken")
+
+    class Config:
+        populate_by_name = True
+
 class UserUpdate(BaseModel):
     """Schema for PATCH /api/users/me (Story 1.3a)"""
     name: Optional[str] = Field(None, min_length=1)

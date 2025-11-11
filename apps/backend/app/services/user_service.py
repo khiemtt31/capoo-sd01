@@ -1,26 +1,14 @@
-from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 from app.data.user_repository import UserRepository
 from app.domain.user_schema import UserCreate, UserResponse, UserUpdate, TokenResponse
 from app.domain.user_model import UserModel
 from app.core.utils import get_password_hash, verify_password
-from app.core.security import create_access_token, create_refresh_token
+from app.core.security import create_access_token, create_refresh_token, decode_token
+from app.core.exceptions import ConflictException, UnauthorizedException, NotFoundException
+from app.core.config import settings
+from app.core.messages import MessageKeys
 from typing import Optional
 import uuid
-
-# Custom exception for duplicate email (Story 1.1a - 409 Conflict)
-class DuplicateEmailError(HTTPException):
-    def __init__(self):
-        super().__init__(
-            status_code=status.HTTP_409_CONFLICT,
-            detail={
-                "error": {
-                    "code": "409_CONFLICT",
-                    "message": "Email already registered.",
-                    "correlationId": str(uuid.uuid4())
-                }
-            }
-        )
 
 class UserService:
     """
@@ -38,7 +26,7 @@ class UserService:
         - Persist user.
         """
         if self.user_repo.get_by_email(user_data.email):
-            raise DuplicateEmailError()
+            raise ConflictException(message_key=MessageKeys.EMAIL_ALREADY_REGISTERED)
 
         hashed_password = get_password_hash(user_data.password)
         
@@ -70,18 +58,8 @@ class UserService:
         """
         user = self.authenticate_user(email, password)
         if not user:
-            # Raise 401 Unauthorized using the standard error contract
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail={
-                    "error": {
-                        "code": "401_UNAUTHORIZED",
-                        "message": "Invalid credentials.",
-                        "correlationId": str(uuid.uuid4())
-                    }
-                },
-                headers={"WWW-Authenticate": "Bearer"},
-            )
+            # Raise 401 Unauthorized using the custom exception
+            raise UnauthorizedException(message_key=MessageKeys.INVALID_CREDENTIALS, headers={"WWW-Authenticate": "Bearer"})
 
         # Issue JWT access token and refresh token pair (Story 1.2a)
         access_token = create_access_token(data={"user_id": str(user.id), "role": user.role})
@@ -93,6 +71,43 @@ class UserService:
         return TokenResponse(
             accessToken=access_token,
             refreshToken=refresh_token,
+            expiresIn=settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60 # seconds
+        )
+
+    def refresh_tokens(self, refresh_token: str) -> TokenResponse:
+        """
+        Handles token refresh (Story 1.2b).
+        Validates the refresh token and issues a new access/refresh token pair.
+        """
+        payload = decode_token(refresh_token)
+        
+        if payload.get("sub") != "refresh":
+            raise UnauthorizedException(message_key=MessageKeys.INVALID_TOKEN)
+
+        user_id_str: str = payload.get("user_id")
+        if not user_id_str:
+            raise UnauthorizedException(message_key=MessageKeys.INVALID_TOKEN)
+
+        try:
+            user_id = uuid.UUID(user_id_str)
+        except ValueError:
+            raise UnauthorizedException(message_key=MessageKeys.INVALID_TOKEN)
+
+        user = self.user_repo.get_by_id(user_id)
+        if not user:
+            raise UnauthorizedException(message_key=MessageKeys.USER_NOT_FOUND)
+
+        # NOTE: In a real system, we would check if the refresh token is revoked here (Story 1.2b)
+        
+        # Issue new JWT access token and refresh token pair
+        new_access_token = create_access_token(data={"user_id": str(user.id), "role": user.role})
+        new_refresh_token = create_refresh_token(data={"user_id": str(user.id)})
+
+        # NOTE: Record token refresh event in audit log (Story 1.2b)
+
+        return TokenResponse(
+            accessToken=new_access_token,
+            refreshToken=new_refresh_token,
             expiresIn=settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60 # seconds
         )
 
@@ -108,16 +123,7 @@ class UserService:
         user = self.user_repo.get_by_id(user_id)
         if not user:
             # This should ideally be caught by authentication dependency, but included for robustness
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail={
-                    "error": {
-                        "code": "404_NOT_FOUND",
-                        "message": "User not found.",
-                        "correlationId": str(uuid.uuid4())
-                    }
-                }
-            )
+            raise NotFoundException(message_key=MessageKeys.USER_NOT_FOUND)
         
         updated_user = self.user_repo.update(user, update_data)
         

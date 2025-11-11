@@ -13,8 +13,8 @@
 
 - **Props & DTOs:** Use TypeScript classes for DTOs to leverage decorators for validation. Use interfaces for internal-only type definitions.
 - **Dependency Injection:** Use NestJS's built-in DI container. Services should be injected into controllers/resolvers.
-- **Error Handling:** Use standard NestJS exceptions (`HttpException`, `NotFoundException`, etc.). Create custom exceptions for specific business logic errors.
-- **Imports:** Order imports as follows: Node.js built-ins, external libraries, internal modules, services, entities, DTOs, types.
+- **Error Handling:** All business logic errors must be raised using custom exceptions derived from `APIException` (defined in `app.core.exceptions`). These exceptions are automatically handled and formatted by the global exception handlers.
+- **Imports:** Order imports as follows: Python built-ins, external libraries, internal modules, services, entities, DTOs, types.
 
 ## 3. Database and Entities
 
@@ -25,8 +25,10 @@
 ## 4. API Design
 
 - **RESTful Principles:** Adhere to RESTful principles for API design. Use appropriate HTTP verbs (GET, POST, PUT, DELETE) and status codes.
+- **Response Standardization:** All successful API responses must use the `GeneralResponse` schema (or `SuccessResponse` derived from it) defined in `app.domain.general_schema`. The response should include `status: "success"`, a descriptive `message`, and the actual payload in the `data` field.
+- **Error Documentation:** All API endpoints must explicitly document potential error responses (e.g., 401, 404, 409) using the `responses` parameter in the FastAPI route decorator, referencing the `ErrorResponse` schema.
 - **Versioning:** Version APIs to avoid breaking changes for clients (e.g., `/api/v1/...`).
-- **Validation:** Use validation pipes with DTOs to validate incoming request bodies.
+- **Validation:** Use Pydantic models (DTOs/Schemas) for request and response bodies, leveraging FastAPI's automatic validation and serialization.
 
 ## 5. TypeScript
 
