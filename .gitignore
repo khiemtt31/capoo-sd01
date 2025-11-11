@@ -6,3 +6,6 @@ apps/*/.venv
 .env
 */.env
 */.env.example
+
+# Python
+**/*.pyc

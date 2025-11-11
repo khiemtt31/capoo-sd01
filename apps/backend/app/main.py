@@ -36,7 +36,7 @@ def create_tables(drop_first: bool = False):
     if drop_first:
         logger.warning("Dropping all existing database tables...")
         # We rely on the DDL event listener to handle CASCADE and IF EXISTS
-        Base.metadata.drop_all(bind=engine)
+        Base.metadata.drop_all(bind=engine, checkfirst=False)
         logger.warning("Finished dropping tables.")
         
     logger.info("Creating database tables...")
@@ -66,6 +66,6 @@ def get_application() -> FastAPI:
     return application
 
 # Create tables on startup (for local development/testing)
-create_tables(drop_first=True) # Force recreation of tables during development
+# create_tables(drop_first=True) # Force recreation of tables during development
 
 app = get_application()
