@@ -56,7 +56,7 @@ def get_application() -> FastAPI:
     application.include_router(auth_controller.router, prefix=settings.API_PREFIX)
     application.include_router(user_controller.router, prefix=settings.API_PREFIX)
 
-    # NOTE: Add middleware for observability/audit logging (Story 1.4) here later.
+    # NOTE: Add proxy for observability/audit logging (Story 1.4) here later.
 
     application.add_exception_handler(APIException, api_exception_handler)
     application.add_exception_handler(ValidationError, validation_exception_handler)

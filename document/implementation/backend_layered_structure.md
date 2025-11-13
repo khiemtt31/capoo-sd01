@@ -12,7 +12,7 @@ apps/backend/
 │   ├── core/
 │   │   ├── guards/
 │   │   ├── interceptors/
-│   │   └── middleware/
+│   │   └── proxy/
 │   ├── features/
 │   │   └── [feature-name]/
 │   │       ├── [feature-name].module.ts
@@ -42,7 +42,7 @@ apps/backend/
 - **Purpose:** Core application logic that is shared across all features.
 - **`guards/`:** Authentication and authorization guards (e.g., `JwtAuthGuard`, `RolesGuard`).
 - **`interceptors/`:** Request/response interceptors (e.g., for logging, transforming responses).
-- **`middleware/`:** Custom middleware functions.
+- **`proxy/`:** Custom proxy functions.
 
 ### `features/`
 

@@ -211,6 +211,10 @@ Error payloads include localized messages at the client layer while keeping code
 - [x] Emit domain events and audit logs for registration and profile updates.
 
 **Frontend**
+- [x] Create user context with zod for authentication and others.
+- [x] Auth must seperate auth / un-auth path.
+- [x] Create proxy to handle route checking for public/private paths.
+- [x] Enhance UI for signup, login and dashboard.
 - [x] Build registration page with form validation and success/error states.
 - [x] Implement login page with session handling and token storage strategy.
 - [x] Create profile page with editable fields, avatar upload, and optimistic updates.
