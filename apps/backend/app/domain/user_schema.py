@@ -54,7 +54,7 @@ class TokenResponse(BaseModel):
     """Schema for successful login response (Story 1.2a)"""
     access_token: str = Field(alias="accessToken")
     refresh_token: str = Field(alias="refreshToken")
-    expires_in: int
+    expires_in: int = Field(alias="expiresIn")
 
     class Config:
         populate_by_name = True # Allow field names to be populated by their aliases

@@ -1,7 +1,8 @@
-const HomePage = () => {
-  return (<div className="">
+// Root page is handled by (app) route group
+// This should not be rendered as it conflicts with route groups
+// The dashboard is available at app/(app)/page.tsx
 
-  </div>)
+export default function RootPage() {
+  return null;
 }
 
-export default HomePage

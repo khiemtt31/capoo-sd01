@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useRegister } from '../../hooks/use-register';
+import { useRegister } from '../../../hooks/use-register';
 
 export default function RegisterPage() {
   const [email, setEmail] = useState('');
@@ -15,7 +15,6 @@ export default function RegisterPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      // You might want to handle this error more gracefully
       alert("Passwords don't match");
       return;
     }
@@ -30,14 +29,14 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-xl shadow-lg">
+    <div className="w-full max-w-md">
+      <div className="bg-white dark:bg-slate-950 rounded-lg shadow-lg p-8 space-y-8">
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-900">Create an Account</h1>
-          <p className="mt-2 text-sm text-gray-600">Get started with your new account</p>
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Create an Account</h1>
+          <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">Get started with your new account</p>
         </div>
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="relative">
+          <div>
             <input
               id="email"
               name="email"
@@ -46,24 +45,24 @@ export default function RegisterPage() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 text-gray-900 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-3 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
               placeholder="Email address"
             />
           </div>
-          <div className="relative">
+          <div>
             <input
               id="password"
               name="password"
               type="password"
-              autoComplete="current-password"
+              autoComplete="new-password"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 text-gray-900 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-3 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
               placeholder="Password"
             />
           </div>
-          <div className="relative">
+          <div>
             <input
               id="confirmPassword"
               name="confirmPassword"
@@ -72,24 +71,24 @@ export default function RegisterPage() {
               required
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full px-4 py-3 text-gray-900 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-3 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
               placeholder="Confirm Password"
             />
           </div>
-          {error && <p className="text-sm text-red-600">{error.message}</p>}
+          {error && <p className="text-sm text-red-600 dark:text-red-400">{(error as any).message}</p>}
           <div>
             <button
               type="submit"
               disabled={isPending}
-              className="w-full px-4 py-3 font-semibold text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="w-full px-4 py-3 font-semibold text-white bg-blue-600 dark:bg-blue-700 rounded-lg shadow-md hover:bg-blue-700 dark:hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
             >
               {isPending ? 'Creating Account...' : 'Create Account'}
             </button>
           </div>
         </form>
-        <div className="text-sm text-center text-gray-600">
+        <div className="text-sm text-center text-slate-600 dark:text-slate-400">
           {'Already have an account? '}
-          <Link href="/login" className="font-medium text-blue-600 hover:underline">
+          <Link href="/login" className="font-medium text-blue-600 dark:text-blue-400 hover:underline">
             Sign in
           </Link>
         </div>
@@ -97,3 +96,4 @@ export default function RegisterPage() {
     </div>
   );
 }
+

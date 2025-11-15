@@ -1,26 +1,43 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-border: 215 28% 88%;
+  --color-input: 215 28% 88%;
+  --color-ring: 215 16% 16%;
+  --color-background: 0 0% 100%;
+  --color-foreground: 215 16% 16%;
+  --color-primary: 215 16% 16%;
+  --color-primary-foreground: 215 10% 98%;
+  --color-secondary: 215 14% 89%;
+  --color-secondary-foreground: 215 16% 16%;
+  --color-destructive: 0 84% 60%;
+  --color-destructive-foreground: 215 10% 98%;
+  --color-muted: 215 14% 66%;
+  --color-muted-foreground: 215 12% 44%;
+  --color-accent: 215 20% 33%;
+  --color-accent-foreground: 215 10% 98%;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.dark {
+  --color-border: 215 16% 23%;
+  --color-input: 215 16% 23%;
+  --color-ring: 215 10% 98%;
+  --color-background: 215 27% 9%;
+  --color-foreground: 215 10% 98%;
+  --color-primary: 215 10% 98%;
+  --color-primary-foreground: 215 16% 16%;
+  --color-secondary: 215 14% 23%;
+  --color-secondary-foreground: 215 10% 98%;
+  --color-destructive: 0 84% 60%;
+  --color-destructive-foreground: 215 27% 9%;
+  --color-muted: 215 13% 54%;
+  --color-muted-foreground: 215 12% 88%;
+  --color-accent: 215 13% 88%;
+  --color-accent-foreground: 215 27% 9%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: hsl(var(--color-background));
+  color: hsl(var(--color-foreground));
 }
+
